@@ -1,7 +1,6 @@
 import { render, waitFor, screen } from '@testing-library/react';
 import App from './App';
-import { rest } from 'msw';
-import {setupServer} from 'msw/node';
+
 import userEvent from '@testing-library/user-event'
 
 test('As a Chef I want to store my recipes so that I can keep track of them.', () => {
@@ -18,32 +17,59 @@ test('As a Chef I want to store my recipes so that I can keep track of them.', (
   expect(recipeHeader.compareDocumentPosition(recipeList)).toBe(4);
 });
 
+test("contains an add recipe button that when clicked opens a form", async () => {
+  // render the landing page
+  render(<App />);
 
-test("contains an add recipe button", async () => {
+  
+  let button = screen.getByRole('button', {name: 'Add Recipe'});
+  userEvent.click(button);
 
+  
+  let form = await screen.findByRole('form', undefined, {timeout:3000});
+
+ 
+  expect(form).toBeInTheDocument();
+
+  expect(screen.getByRole('textbox', {name: /Recipe name/i})).toBeInTheDocument();
+  expect(screen.getByRole('textbox', {name: /instructions/i})).toBeInTheDocument();
+  
+  
+  button = screen.queryByRole('button', {name: 'Add Recipe'});
+  expect(button).toBeNull();
+});
+
+
+test("As a Chef, I want to be able to see a recipe that I have added show up under 'My Recipes'", async () => {
   render(<App />)
-
-  let recipeHeader = screen.getByText('My Recipes');
 
   let button = screen.getByRole('button', {name: 'Add Recipe'});
   userEvent.click(button);
 
-  let form = await screen.findByRole('form', undefined, {timeout:3000})
+  let submitButton = screen.getByRole('button');
+  userEvent.click(submitButton);
 
-  expect(form).toBeInTheDocument();
-  expect(button).toBeInTheDocument();
-  expect(screen.getByRole('textbox', {name: /Recipe name/i})).toBeInTheDocument();
-  expect(screen.getByRole('textbox', {name: /instructions/i})).toBeInTheDocument();
-  button = screen.queryByRole('button', {name: 'Add Recipe'});
-  expect(button).toBeNull();
-  expect(recipeHeader.compareDocumentPosition(button)).toBe(4);
+  let recipeNameBox = screen.getByRole('textbox', {name: /Recipe name/i});
+  userEvent.type(recipeNameBox, 'Tofu Scramble Tacos');
 
+  const recipeName = 'Tofu Scramble Tacos';
+  constRecipeInstructions = '1.Turn on oven'
+ userEvent.type(recipeNameBox, recipeName);
+ userEvent.type(RecipeInstructionbox, constRecipeInstructions);
 
+let recipe = await screen.findByText(/Name:.*Tofu Scramble Tacos/i);
+
+  expect(recipeNameBox).toBeInTheDocument();
+
+  expect(RecipeInstructionbox).toBeInTheDocument();
+
+  expect(constRecipeInstructions).toBeInTheDocument();
 
 })
 
-// test('renders learn react link', () => {
-//   render(<App />);
-//   const linkElement = screen.getByText(/learn react/i);
-//   expect(linkElement).toBeInTheDocument();
-// });
+
+
+
+
+
+
