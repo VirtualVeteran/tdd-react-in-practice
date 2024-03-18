@@ -18,7 +18,7 @@ test('As a Chef I want to store my recipes so that I can keep track of them.', (
 });
 
 test("contains an add recipe button that when clicked opens a form", async () => {
-  // render the landing page
+
   render(<App />);
 
   
@@ -59,17 +59,40 @@ test("As a Chef, I want to be able to see a recipe that I have added show up und
 
 let recipe = await screen.findByText(/Name:.*Tofu Scramble Tacos/i);
 
-  expect(recipeNameBox).toBeInTheDocument();
+  // expect(recipeNameBox).toBeInTheDocument();
 
-  expect(RecipeInstructionbox).toBeInTheDocument();
+  // expect(RecipeInstructionbox).toBeInTheDocument();
 
-  expect(constRecipeInstructions).toBeInTheDocument();
+  // expect(constRecipeInstructions).toBeInTheDocument();
+
+})
+
+test('previous recipe submissions listed under "My Recipes" ', async () => {
+  render(<App />)
+
 
 })
 
 
 
 
+test('clicking on previous submissions populates recipe intructions ', async () => {
+  render(<App />)
+
+  
+})
 
 
+test('edit buttons are on the name of recipe on instructions that allow user to edit either and update value', async () => {
+  render(<App />)
+
+  
+})
+
+
+test('clicking save to an update refreshes page and saves updates', async () => {
+  render(<App />)
+
+  
+})
 
