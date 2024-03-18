@@ -22,6 +22,8 @@ let submitRecipe = (event) => {
 
   let newRecipeName = document.getElementById('newRecipeName').value;
   let newRecipeInstructions = document.getElementById('newRecipeInstructions').value;
+
+  let previousRecipeList = 
   
   this.setState({recipes: [
       {

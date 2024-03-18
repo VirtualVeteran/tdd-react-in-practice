@@ -53,11 +53,12 @@ test("As a Chef, I want to be able to see a recipe that I have added show up und
   userEvent.type(recipeNameBox, 'Tofu Scramble Tacos');
 
   const recipeName = 'Tofu Scramble Tacos';
-  constRecipeInstructions = '1.Turn on oven'
- userEvent.type(recipeNameBox, recipeName);
- userEvent.type(RecipeInstructionbox, constRecipeInstructions);
 
-let recipe = await screen.findByText(/Name:.*Tofu Scramble Tacos/i);
+  const RecipeInstructions = '1.Turn on oven'
+  userEvent.type(recipeNameBox, recipeName);
+  userEvent.type(RecipeInstructionbox, constRecipeInstructions);
+
+  let recipe = await screen.findByText(/Name:.*Tofu Scramble Tacos/i);
 
   // expect(recipeNameBox).toBeInTheDocument();
 
@@ -70,7 +71,25 @@ let recipe = await screen.findByText(/Name:.*Tofu Scramble Tacos/i);
 test('previous recipe submissions listed under "My Recipes" ', async () => {
   render(<App />)
 
+  let name = recipeName
 
+  let recipeList = screen.getByTestId('recipe-list')
+
+  let recipeHeader = screen.getByTestId('recipe-header')
+  
+  let previousRecipeList = screen.getByTestId('previous-recipes')
+
+  let button = screen.getByRole('button', {name: 'Add Recipe'});
+  userEvent.click(button);
+
+  let submitButton = screen.getByRole('button');
+  userEvent.click(submitButton);
+
+  
+
+
+  expect(recipeList).toBeInTheDocument();
+  expect(recipeHeader.compareDocumentPosition(recipeList)).toBe(4);
 })
 
 
